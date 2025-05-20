@@ -8,7 +8,6 @@
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="./resources/css/bootstrap.css">
 
   <style>
