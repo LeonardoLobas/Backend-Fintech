@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Bootstrap CSS -->
-  <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./resources/css/bootstrap.css">
 
   <style>
     .login-card {
@@ -141,8 +141,8 @@
     <h5>Seja Bem-vindo de Volta !</h5>
 
     <form action="login" method="post">
-      <input type="email" class="form-control mb-2" name="email" placeholder="Email" required>
-      <input type="password" class="form-control" name="password" placeholder="Password" required>
+        <input type="email" class="form-control mb-2" name="email" placeholder="Email" required>
+        <input type="password" class="form-control" name="password" placeholder="Password" required>
       <a href="#" class="forgot-password">Esqueceu sua senha?</a>
 
       <button type="submit" class="btn btn-login w-100">Entrar</button>

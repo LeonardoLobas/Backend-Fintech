@@ -6,11 +6,13 @@
   response.setHeader("Pragma", "no-cache");
   response.setDateHeader("Expires", 0);
 
-  if (session.getAttribute("usuarioLogado") == null) {
+  HttpSession sessao = request.getSession(false);
+  if (sessao == null || sessao.getAttribute("usuarioLogado") == null) {
     response.sendRedirect("loginUser.jsp");
     return;
   }
 %>
+
 
 <!DOCTYPE html>
 <html>
