@@ -47,7 +47,7 @@
             <input type="password" name="confirmar-senha" id="id-senha-confirmar-senha" class="form-control">
           </div>
           <input type="submit" value="Salvar" class="btn btn-primary mt-3">
-          <a href="index.jsp" class="btn btn-warning mt-3">Voltar a tela inicial</a>
+          <a href="loginUser.jsp" class="btn btn-warning mt-3">Voltar a tela de login</a>
         </form>
       </div>
     </div>
