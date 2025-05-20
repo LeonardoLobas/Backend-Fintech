@@ -16,12 +16,12 @@ public class AuthFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
 
         String uri = req.getRequestURI();
-        boolean isLogin = uri.endsWith("loginUser.jsp") || uri.endsWith("login") || uri.endsWith("cadastroUser.jsp");
+        boolean isPublic = uri.endsWith("loginUser.jsp") || uri.endsWith("login") || uri.endsWith("cadastroUser.jsp") || uri.endsWith("users");
 
         boolean loggedIn = req.getSession().getAttribute("usuarioLogado") != null;
 
 
-        if (!loggedIn && !isLogin) {
+        if (!loggedIn && !isPublic) {
             resp.sendRedirect("loginUser.jsp");
         } else {
             chain.doFilter(request, response);
