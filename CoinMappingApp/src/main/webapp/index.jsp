@@ -32,7 +32,7 @@
         <div class="border rounded p-2 mb-2" style="background-color: #e9f7ef;">
           <h6 class="fw-semibold mb-1" style="color: #157347;">Total de Receitas</h6>
           <p class="mb-0 small">
-            <strong style="color: #157347;">R$ <c:out value="${totalReceitas}" /></strong>
+            <strong style="color: #157347;">R$ <c:out value="${totalReceita}" /></strong>
           </p>
         </div>
         <label for="valorReceita" class="form-label fw-semibold" style="color: #157347; font-size: 1.2rem;">Adicionar receita</label>
