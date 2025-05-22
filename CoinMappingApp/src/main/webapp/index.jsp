@@ -38,7 +38,7 @@
         <label for="valorReceita" class="form-label fw-semibold" style="color: #157347; font-size: 1.2rem;">Adicionar receita</label>
         <form action="receita" method="post">
           <div class="input-group mb-2">
-            <input type="number" class="form-control" id="valorReceita" name="valor" placeholder="R$ 0,00" required>
+            <input type="number" min="0" class="form-control" id="valorReceita" name="valor" placeholder="R$ 0,00" required>
             <button class="btn btn-success" type="submit">+</button>
           </div>
 
@@ -69,7 +69,7 @@
         <label for="valorDespesa" class="form-label fw-semibold" style="color: #BB2D3B; font-size: 1.2rem;">Adicionar despesa</label>
         <form action="despesa" method="post">
           <div class="input-group mb-2">
-            <input type="number" class="form-control" id="valorDespesa" name="valor" placeholder="R$ 0,00" required>
+            <input type="number" min="0" class="form-control" id="valorDespesa" name="valor" placeholder="R$ 0,00" required>
             <button class="btn btn-danger" type="submit">+</button>
           </div>
 
