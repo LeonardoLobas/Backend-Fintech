@@ -29,37 +29,65 @@
     <div class="row g-3 mt-3">
 
       <div class="col-12 col-md-4">
-        <label for="receita" class="form-label fw-semibold" style="color: #157347; font-size: 1.2rem;">Receita</label>
-        <div class="input-group mb-2">
-          <input type="number" class="form-control" id="receita" placeholder="R$ 0,00">
-          <button class="btn btn-success" type="button" id="addReceita">+</button>
+        <div class="border rounded p-2 mb-2" style="background-color: #e9f7ef;">
+          <h6 class="fw-semibold mb-1" style="color: #157347;">Total de Receitas</h6>
+          <p class="mb-0 small">
+            <strong style="color: #157347;">R$ <c:out value="${totalReceitas}" /></strong>
+          </p>
         </div>
+        <label for="valorReceita" class="form-label fw-semibold" style="color: #157347; font-size: 1.2rem;">Adicionar receita</label>
+        <form action="receita" method="post">
+          <div class="input-group mb-2">
+            <input type="number" class="form-control" id="valorReceita" name="valor" placeholder="R$ 0,00" required>
+            <button class="btn btn-success" type="submit">+</button>
+          </div>
+
+          <input type="text" class="form-control mb-2" name="descricao" placeholder="Descrição da receita" required>
+
+          <input type="hidden" name="nome" value="Receita">
+        </form>
 
 
         <div class="border rounded p-2" style="background-color: #f8f9fa; height: 150px; overflow-y: auto;">
           <h6 class="fw-semibold" style="color: #157347;">Registros Ganhos</h6>
-          <ul id="listaReceitas" class="mb-0 list-unstyled small">
-
+          <ul id="listaReceitas" class="mb-0 list-unstyled small"
+            <c:forEach var="receita" items="${receitas}">
+              <li>${receita.nome} - R$ ${receita.valor} - ${receita.descricao}</li>
+            </c:forEach>
           </ul>
         </div>
       </div>
 
-
       <div class="col-12 col-md-4">
-        <label for="despesa" class="form-label fw-semibold" style="color: #BB2D3B; font-size: 1.2rem;">Despesa</label>
-        <div class="input-group mb-2">
-          <input type="number" class="form-control" id="despesa" placeholder="R$ 0,00">
-          <button class="btn btn-danger" type="button" id="addDespesa">+</button>
+        <div class="border rounded p-2 mb-2" style="background-color: #fdecea;">
+          <h6 class="fw-semibold mb-1" style="color: #BB2D3B;">Total de Despesas</h6>
+          <p class="mb-0 small">
+            <strong style="color: #BB2D3B;">R$ <c:out value="${totalDespesa}" /></strong>
+          </p>
         </div>
 
+        <label for="valorDespesa" class="form-label fw-semibold" style="color: #BB2D3B; font-size: 1.2rem;">Adicionar despesa</label>
+        <form action="despesa" method="post">
+          <div class="input-group mb-2">
+            <input type="number" class="form-control" id="valorDespesa" name="valor" placeholder="R$ 0,00" required>
+            <button class="btn btn-danger" type="submit">+</button>
+          </div>
+
+          <input type="text" class="form-control mb-2" name="descricao" placeholder="Descrição da despesa" required>
+
+          <input type="hidden" name="nome" value="Despesa">
+        </form>
 
         <div class="border rounded p-2" style="background-color: #f8f9fa; height: 150px; overflow-y: auto;">
           <h6 class="fw-semibold" style="color: #BB2D3B;">Registros Gastos</h6>
           <ul id="listaDespesas" class="mb-0 list-unstyled small">
-
+            <c:forEach var="despesa" items="${despesas}">
+              <li>${despesa.nome} - R$ ${despesa.valor} - ${despesa.descricao}</li>
+            </c:forEach>
           </ul>
         </div>
       </div>
+
 
 
       <div class="col-12 col-md-4">
