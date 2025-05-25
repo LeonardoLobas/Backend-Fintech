@@ -22,16 +22,16 @@ public class ReceitaServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        try {
+      /*  try {
             receitaDao = new OracleReceitaDao(); // usa o construtor correto
         } catch (SQLException e) {
             throw new ServletException("Erro ao iniciar DAO", e);
-        }
+        }*/
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+      /*  try {
             String nome = request.getParameter("nome");
             Double valor = Double.valueOf(request.getParameter("valor"));
             String descricao = request.getParameter("descricao");
@@ -55,7 +55,7 @@ public class ReceitaServlet extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException(e);
-        }
+        }*/
     }
 
 }

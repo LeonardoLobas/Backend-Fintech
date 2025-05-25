@@ -16,20 +16,20 @@ import java.util.List;
 @WebServlet("/despesa")
 public class DespesaServlet extends HttpServlet {
 
-    private OracleDespesaDao despesaDao;
+   /* private OracleDespesaDao despesaDao;*/
 
     @Override
     public void init() throws ServletException {
-        try {
+       /* try {
             despesaDao = new OracleDespesaDao();
         } catch (SQLException e) {
             throw new ServletException("Erro ao conectar ao banco", e);
-        }
+        }*/
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+       /* try {
             String nome = request.getParameter("nome");
             Double valor = Double.valueOf(request.getParameter("valor"));
             String descricao = request.getParameter("descricao");
@@ -58,15 +58,15 @@ public class DespesaServlet extends HttpServlet {
 
         } catch (SQLException e) {
             throw new ServletException("Erro ao cadastrar despesa", e);
-        }
+        }*/
     }
 
     @Override
     public void destroy() {
-        try {
+        /*try {
             despesaDao.fecharConexao();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

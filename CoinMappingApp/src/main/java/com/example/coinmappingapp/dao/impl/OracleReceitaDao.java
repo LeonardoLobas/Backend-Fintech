@@ -1,84 +1,103 @@
 package com.example.coinmappingapp.dao.impl;
 
 import com.example.coinmappingapp.dao.ConnectionManager;
+import com.example.coinmappingapp.dao.ReceitaDao;
 import com.example.coinmappingapp.exception.DBExeption;
 import com.example.coinmappingapp.model.Receita;
+import com.example.coinmappingapp.model.TipoReceita;
+import com.example.coinmappingapp.model.User;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OracleReceitaDao {
-    private Connection conexao;
+public class OracleReceitaDao implements ReceitaDao {
+    @Override
+    public void cadastrar(Receita receita) throws DBExeption {
+        String sql = "INSERT INTO T_FIN_RECEITAS (ID_RECEITA, NOME_RECEITA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_TIPO_RECEITA, ID_USER) " +
+                "VALUES (seq_usuario.nextval, ?, ?, ?, ?, ?, ?)";
 
-    public OracleReceitaDao() throws SQLException {
-        conexao = ConnectionManager.getConnection();
-    }
+        try (Connection conexao = ConnectionManager.getInstance().getConnection();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
+            stmt.setString(1, receita.getNome());
+            stmt.setDouble(2, receita.getValor());
+            stmt.setString(3, receita.getDescricao());
+            stmt.setDate(4, Date.valueOf(receita.getDataInclusao()));
+            stmt.setLong(5, receita.getTipoReceita().getId());
+            stmt.setLong(6, receita.getUser().getId());
 
-    public void cadastrar(Receita receita) throws SQLException {
-        PreparedStatement stm = conexao.prepareStatement("INSERT INTO T_FIN_RECEITAS (ID_RECEITA,  NOME_RECEITA,  VALOR, DESCRICAO, DATA_INCLUSAO) VALUES (seq_receita.nextval, ?, ?, ?, ?)");
-        stm.setString(1, receita.getNome());
-        stm.setDouble(2, receita.getValor());
-        stm.setString(3, receita.getDescricao());
-        stm.setDate(4, Date.valueOf(receita.getDataInclusao()));
+            stmt.executeUpdate();
 
-        stm.executeUpdate();
-    }
-
-    public Receita pesquisar(long codigo) throws SQLException, DBExeption {
-        PreparedStatement stm = conexao.prepareStatement("SELECT * FROM T_FIN_RECEITAS WHERE ID_RECEITA  = ?");
-        stm.setLong(1, codigo);
-        ResultSet result = stm.executeQuery();
-
-        if (!result.next())
-            throw new DBExeption("Receita não encontrado");
-
-        return parseReceita(result);
-    }
-
-    public void fecharConexao() throws SQLException {
-        conexao.close();
-    }
-
-
-    public List<Receita> listar() throws SQLException {
-        PreparedStatement stm = conexao.prepareStatement("SELECT * FROM T_FIN_RECEITAS");
-        ResultSet result = stm.executeQuery();
-        List<Receita> lista = new ArrayList<>();
-        while (result.next()){
-            Receita receita = parseReceita(result);
-            lista.add(receita);
+        } catch (SQLException e) {
+            throw new DBExeption("Erro ao cadastrar receita", e);
         }
+    }
+
+    @Override
+    public void atualizar(Receita receita) throws DBExeption {
+        String sql = "UPDATE T_FIN_RECEITAS SET NOME_RECEITA = ?, VALOR = ?, DESCRICAO = ? WHERE ID_RECEITA = ?";
+
+        try (Connection conexao = ConnectionManager.getInstance().getConnection();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setString(1, receita.getNome());
+            stmt.setDouble(2, receita.getValor());
+            stmt.setString(3, receita.getDescricao());
+            stmt.setLong(4, receita.getId());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DBExeption("Erro ao atualizar receita", e);
+        }
+    }
+
+    @Override
+    public void remover(Long id) throws DBExeption {
+        String sql = "DELETE FROM T_FIN_RECEITAS WHERE ID_RECEITA = ?";
+
+        try (Connection conexao = ConnectionManager.getInstance().getConnection();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DBExeption("Erro ao remover receita", e);
+        }
+    }
+
+    @Override
+    public List<Receita> listar() {
+        List<Receita> lista = new ArrayList<>();
+        String sql = "SELECT * FROM T_FIN_RECEITAS";
+
+        try (Connection conexao = ConnectionManager.getInstance().getConnection();
+             PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Long id = rs.getLong("ID_RECEITA");
+                String nome = rs.getString("NOME_RECEITA");
+                Double valor = rs.getDouble("VALOR");
+                String descricao = rs.getString("DESCRICAO");
+                LocalDate dataInclusao = rs.getDate("DATA_INCLUSAO").toLocalDate();
+                Long idTipoReceita = rs.getLong("ID_TIPO_RECEITA");
+                Long idUsuario = rs.getLong("ID_USER");
+
+                TipoReceita tipoReceita = new TipoReceita(idTipoReceita); // Assumindo que há um construtor
+                User user = new User(idUsuario); // Assumindo que há um construtor
+
+                Receita receita = new Receita(id, nome, valor, descricao, dataInclusao, tipoReceita, user);
+                lista.add(receita);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar receitas", e);
+        }
+
         return lista;
     }
-
-    public void atualizar(Receita receita) throws SQLException {
-        PreparedStatement stm = conexao.prepareStatement("UPDATE T_FIN_RECEITAS SET NOME_RECEITA = ?,  VALOR = ?,  DESCRICAO = ? WHERE ID_RECEITA = ? ");
-        stm.setString(1, receita.getNome());
-        stm.setDouble(2, receita.getValor());
-        stm.setString(3, receita.getDescricao());
-        stm.setLong(4,receita.getId() );
-        stm.executeUpdate();
-    }
-
-    public void remover(long codigo) throws SQLException, DBExeption {
-        PreparedStatement stm = conexao.prepareStatement("DELETE from T_FIN_RECEITAS where ID_RECEITA = ?");
-        stm.setLong(1, codigo);
-        int linha = stm.executeUpdate();
-        if (linha == 0)
-            throw new DBExeption("Receita não encontrado para ser removido");
-    }
-
-    private Receita parseReceita(ResultSet result) throws SQLException {
-        Long id = result.getLong("ID_RECEITA");
-        String nome = result.getString("NOME_RECEITA");
-        double valor = result.getDouble("VALOR");
-        String descricao = result.getString("DESCRICAO");
-        LocalDate dataInclusao = result.getDate("DATA_INCLUSAO").toLocalDate();
-
-        return new Receita(id, nome, valor, descricao, dataInclusao);
-    }
 }
-

@@ -8,23 +8,24 @@ public class Despesa {
     private Double valor;
     private String descricao;
     private LocalDate dataInclusao;
+    private TipoDespesa tipoDespesa;
+    private User user;
 
-    public Despesa(Long id, String nome, Double valor, String descricao, LocalDate dataInclusao) {
+    public Despesa() {}
+
+    public Despesa(Long id, String nome, Double valor, String descricao, LocalDate dataInclusao, TipoDespesa tipoDespesa, User user) {
         this.id = id;
         this.nome = nome;
         this.valor = valor;
         this.descricao = descricao;
         this.dataInclusao = dataInclusao;
+        this.tipoDespesa = tipoDespesa;
+        this.user = user;
     }
 
-    public Despesa(String nome, Double valor, String descricao, LocalDate dataInclusao) {
-        this.nome = nome;
-        this.valor = valor;
-        this.descricao = descricao;
-        this.dataInclusao = dataInclusao;
+    public Despesa(String nome, Double valor, String descricao, LocalDate dataInclusao, TipoDespesa tipoDespesa, User user) {
+        this(null, nome, valor, descricao, dataInclusao, tipoDespesa, user);
     }
-
-    public Despesa(){}
 
     public Long getId() {
         return id;
@@ -64,6 +65,22 @@ public class Despesa {
 
     public void setDataInclusao(LocalDate dataInclusao) {
         this.dataInclusao = dataInclusao;
+    }
+
+    public TipoDespesa getTipoDespesa() {
+        return tipoDespesa;
+    }
+
+    public void setTipoDespesa(TipoDespesa tipoDespesa) {
+        this.tipoDespesa = tipoDespesa;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

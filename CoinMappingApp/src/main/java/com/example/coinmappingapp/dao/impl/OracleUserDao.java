@@ -12,6 +12,7 @@ import java.sql.SQLException;
 
 public class OracleUserDao implements UserDao {
     private Connection conexao;
+
     @Override
     public User buscarPorEmailESenha(String email, String senha) throws DBExeption {
         PreparedStatement stmt = null;
@@ -54,7 +55,7 @@ public class OracleUserDao implements UserDao {
     public void cadastrar(User user) throws DBExeption {
 
         PreparedStatement stmt = null;
-       conexao = ConnectionManager.getInstance().getConnection();
+        conexao = ConnectionManager.getInstance().getConnection();
 
         String sql = "insert into T_FIN_USER (ID_USUARIO, NOME_COMPLETO, EMAIL, IDADE_NASC, DATA_CRIACAO, SENHA) values (seq_usuario.nextval, ?, ?, ?, ?, ?) ";
         try {

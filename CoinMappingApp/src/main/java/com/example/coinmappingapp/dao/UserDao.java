@@ -4,8 +4,6 @@ import com.example.coinmappingapp.model.User;
 
 public interface UserDao {
     void cadastrar(User user) throws DBExeption;
-
-
     User buscarPorEmailESenha(String email, String senhaCriptografada) throws DBExeption;
 }
 

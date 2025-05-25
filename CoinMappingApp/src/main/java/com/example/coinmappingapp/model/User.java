@@ -11,6 +11,16 @@ public class User {
     private LocalDate dataCriacao;
     private String senha;
 
+
+    public User(Long idUsuario,String nome,String email, LocalDate dataNascimento, LocalDate dataCriacao, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
+        this.dataCriacao = dataCriacao;
+        this.senha = senha;
+    }
+
+
     public User(String nome,String email, LocalDate dataNascimento, LocalDate dataCriacao, String senha) {
         this.nome = nome;
         this.email = email;
@@ -19,7 +29,10 @@ public class User {
         this.senha = senha;
     }
 
-    public User() {
+
+
+    public User(Long idUsuario) {
+        this.id = idUsuario;
     }
 
     public String getSenha() {

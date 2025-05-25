@@ -8,22 +8,24 @@ public class Receita {
     private Double valor;
     private String descricao;
     private LocalDate dataInclusao;
+    private TipoReceita tipoReceita;
+    private User user;
 
-    public Receita(Long id, String nome, Double valor, String descricao, LocalDate dataInclusao) {
+    public Receita() {}
+
+    public Receita(Long id, String nome, Double valor, String descricao, LocalDate dataInclusao, TipoReceita tipoReceita, User user) {
+        this.id = id;
         this.nome = nome;
         this.valor = valor;
         this.descricao = descricao;
         this.dataInclusao = dataInclusao;
+        this.tipoReceita = tipoReceita;
+        this.user = user;
     }
 
-    public Receita(String nome, Double valor, String descricao, LocalDate dataInclusao) {
-        this.nome = nome;
-        this.valor = valor;
-        this.descricao = descricao;
-        this.dataInclusao = dataInclusao;
+    public Receita(String nome, Double valor, String descricao, LocalDate dataInclusao, TipoReceita tipoReceita, User user) {
+        this(null, nome, valor, descricao, dataInclusao, tipoReceita, user);
     }
-
-    public Receita(){}
 
     public Long getId() {
         return id;
@@ -65,12 +67,30 @@ public class Receita {
         this.dataInclusao = dataInclusao;
     }
 
+    public TipoReceita getTipoReceita() {
+        return tipoReceita;
+    }
+
+    public void setTipoReceita(TipoReceita tipoReceita) {
+        this.tipoReceita = tipoReceita;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
-        return  "id=" + id +
+        return "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", valor=" + valor +
                 ", descricao='" + descricao + '\'' +
-                ", dataInclusao=" + dataInclusao;
+                ", dataInclusao=" + dataInclusao +
+                ", tipoReceita=" + tipoReceita +
+                ", user=" + user;
     }
 }
