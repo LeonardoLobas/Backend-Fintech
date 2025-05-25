@@ -4,6 +4,7 @@ import com.example.coinmappingapp.dao.UserDao;
 import com.example.coinmappingapp.exception.DBExeption;
 import com.example.coinmappingapp.factory.DaoFactory;
 import com.example.coinmappingapp.model.User;
+import com.example.coinmappingapp.util.CriptografiaUtils;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,8 +45,8 @@ public class UserServelet extends HttpServlet {
                 req.getRequestDispatcher("cadastroUser.jsp").forward(req, resp);
                 return;
             }
-
-            User user = new User(nome, email, dataNascimento, LocalDate.now(), senha);
+            String senhaCriptografada = CriptografiaUtils.criptografia(senha);
+            User user = new User(nome, email, dataNascimento, LocalDate.now(), senhaCriptografada);
 
             dao.cadastrar(user);
 

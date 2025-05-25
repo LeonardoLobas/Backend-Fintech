@@ -12,11 +12,50 @@ import java.sql.SQLException;
 
 public class OracleUserDao implements UserDao {
     private Connection conexao;
+
+    @Override
+    public User buscarPorEmailESenha(String email, String senha) throws DBExeption {
+        PreparedStatement stmt = null;
+        conexao = ConnectionManager.getInstance().getConnection();
+        User user = null;
+
+        String sql = "SELECT * FROM T_FIN_USER WHERE EMAIL = ? AND SENHA = ?";
+
+        try {
+            stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
+
+            java.sql.ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                user = new User(
+                        rs.getString("NOME_COMPLETO"),
+                        rs.getString("EMAIL"),
+                        rs.getDate("IDADE_NASC").toLocalDate(),
+                        rs.getDate("DATA_CRIACAO").toLocalDate(),
+                        rs.getString("SENHA")
+                );
+            }
+        } catch (SQLException e) {
+            throw new DBExeption("Erro ao buscar usuário", e);
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (conexao != null) conexao.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user;
+    }
+
     @Override
     public void cadastrar(User user) throws DBExeption {
 
         PreparedStatement stmt = null;
-       conexao = ConnectionManager.getInstance().getConnection();
+        conexao = ConnectionManager.getInstance().getConnection();
 
         String sql = "insert into T_FIN_USER (ID_USUARIO, NOME_COMPLETO, EMAIL, IDADE_NASC, DATA_CRIACAO, SENHA) values (seq_usuario.nextval, ?, ?, ?, ?, ?) ";
         try {
