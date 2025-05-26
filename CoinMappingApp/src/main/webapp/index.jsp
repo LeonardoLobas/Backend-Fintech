@@ -136,17 +136,10 @@
         </div>
       </div>
 
-      <!-- COLUNA RESULTADO PREVISTO / OBJETIVOS -->
+
       <div class="col-12 col-md-4">
         <label for="resultado" class="form-label fw-semibold" style="font-size: 1.2rem;">Resultado Previsto</label>
         <input type="text" class="form-control mb-2" id="resultado" placeholder="R$ 0,00" readonly style="background-color: #f1f1f1;" />
-
-        <div class="border rounded p-2" style="background-color: #f8f9fa; height: 150px; overflow-y: auto;">
-          <h6 class="fw-semibold" style="color: #008b8b;">Objetivos Registrados</h6>
-          <ul id="listaObjetivos" class="mb-0 list-unstyled small">
-            <!-- Se quiser, depois você adiciona objetivos aqui -->
-          </ul>
-        </div>
       </div>
     </div>
   </div>
