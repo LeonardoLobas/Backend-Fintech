@@ -115,6 +115,7 @@
       text-decoration: underline;
     }
   </style>
+
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -166,7 +167,6 @@
 
 <%@include file="footer.jsp" %>
 
-<!-- Bootstrap JS Bundle -->
 <script src="./resources/js/bootstrap.bundle.min.js"></script>
 
 </body>

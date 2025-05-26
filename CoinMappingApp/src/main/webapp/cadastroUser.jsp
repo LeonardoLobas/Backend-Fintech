@@ -6,8 +6,8 @@
   <meta charset="UTF-8">
   <title>Cadastro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./resources/css/bootstrap.css">
 
+  <link rel="stylesheet" href="./resources/css/bootstrap.css">
   <style>
     body, html {
       height: 100%;
@@ -29,6 +29,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
   </style>
+
 </head>
 <body>
 <%@include file="header.jsp" %>

@@ -13,10 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OracleReceitaDao implements ReceitaDao {
+
     @Override
     public void cadastrar(Receita receita) throws DBExeption {
         String sql = "INSERT INTO T_FIN_RECEITAS (ID_RECEITA, NOME_RECEITA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_TIPO_RECEITA, ID_USER) " +
-                "VALUES (seq_usuario.nextval, ?, ?, ?, ?, ?, ?)";
+                "VALUES (seq_receita.nextval, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = ConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -87,8 +88,8 @@ public class OracleReceitaDao implements ReceitaDao {
                 Long idTipoReceita = rs.getLong("ID_TIPO_RECEITA");
                 Long idUsuario = rs.getLong("ID_USER");
 
-                TipoReceita tipoReceita = new TipoReceita(idTipoReceita); // Assumindo que há um construtor
-                User user = new User(idUsuario); // Assumindo que há um construtor
+                TipoReceita tipoReceita = new TipoReceita(idTipoReceita);
+                User user = new User(idUsuario);
 
                 Receita receita = new Receita(id, nome, valor, descricao, dataInclusao, tipoReceita, user);
                 lista.add(receita);
@@ -96,6 +97,41 @@ public class OracleReceitaDao implements ReceitaDao {
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao listar receitas", e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Receita> listarPorUsuario(Long userId) throws DBExeption {
+        List<Receita> lista = new ArrayList<>();
+        String sql = "SELECT * FROM T_FIN_RECEITAS WHERE ID_USER = ?";
+
+        try (Connection conexao = ConnectionManager.getInstance().getConnection();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setLong(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Long id = rs.getLong("ID_RECEITA");
+                    String nome = rs.getString("NOME_RECEITA");
+                    Double valor = rs.getDouble("VALOR");
+                    String descricao = rs.getString("DESCRICAO");
+                    LocalDate dataInclusao = rs.getDate("DATA_INCLUSAO").toLocalDate();
+                    Long idTipoReceita = rs.getLong("ID_TIPO_RECEITA");
+                    Long idUsuario = rs.getLong("ID_USER");
+
+                    TipoReceita tipoReceita = new TipoReceita(idTipoReceita);
+                    User user = new User(idUsuario);
+
+                    Receita receita = new Receita(id, nome, valor, descricao, dataInclusao, tipoReceita, user);
+                    lista.add(receita);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DBExeption("Erro ao listar receitas por usuário", e);
         }
 
         return lista;

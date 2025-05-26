@@ -9,4 +9,5 @@ public interface ReceitaDao {
     void atualizar(Receita receita) throws DBExeption;
     void remover(Long id) throws DBExeption;
     List<Receita> listar();
+    List<Receita> listarPorUsuario(Long userId) throws DBExeption;
 }

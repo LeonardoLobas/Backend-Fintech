@@ -85,8 +85,8 @@ public class OracleDespesaDao implements DespesaDao {
                 Long idTipoDespesa = rs.getLong("ID_TIPO_DESPESA");
                 Long idUsuario = rs.getLong("ID_USER");
 
-                TipoDespesa tipoDespesa = new TipoDespesa(idTipoDespesa); // Assumindo que há um construtor
-                User user = new User(idUsuario); // Assumindo que há um construtor
+                TipoDespesa tipoDespesa = new TipoDespesa(idTipoDespesa);
+                User user = new User(idUsuario);
 
                 Despesa despesa = new Despesa(id, nome, valor, descricao, dataInclusao, tipoDespesa, user);
                 lista.add(despesa);
@@ -94,6 +94,40 @@ public class OracleDespesaDao implements DespesaDao {
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao listar despesas", e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Despesa> listarPorUsuario(Long userId) throws DBExeption {
+        List<Despesa> lista = new ArrayList<>();
+        String sql = "SELECT * FROM T_FIN_DESPESAS WHERE ID_USER = ?";
+
+        try (Connection conexao = ConnectionManager.getInstance().getConnection();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setLong(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Long id = rs.getLong("ID_DESPESA");
+                    String nome = rs.getString("NOME_DESPESA");
+                    Double valor = rs.getDouble("VALOR");
+                    String descricao = rs.getString("DESCRICAO");
+                    LocalDate dataInclusao = rs.getDate("DATA_INCLUSAO").toLocalDate();
+                    Long idTipoDespesa = rs.getLong("ID_TIPO_DESPESA");
+
+                    TipoDespesa tipoDespesa = new TipoDespesa(idTipoDespesa);
+                    User user = new User(userId);
+
+                    Despesa despesa = new Despesa(id, nome, valor, descricao, dataInclusao, tipoDespesa, user);
+                    lista.add(despesa);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DBExeption("Erro ao listar despesas por usuário", e);
         }
 
         return lista;

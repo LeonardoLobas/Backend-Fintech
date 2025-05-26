@@ -13,6 +13,8 @@ public class TipoReceita {
         this.id = idTipoReceita;
     }
 
+    public TipoReceita() {}
+
     public Long getId() {
         return id;
     }

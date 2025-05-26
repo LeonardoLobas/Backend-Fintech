@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ReceitaDaoTeste {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DBExeption {
         ReceitaDao dao = DaoFactory.getReceitaDAO();
         TipoReceitaDao dao2 = DaoFactory.getTipoReceitaDAO();
 
