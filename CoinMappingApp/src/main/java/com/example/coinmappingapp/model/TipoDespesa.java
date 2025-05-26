@@ -9,6 +9,8 @@ public class TipoDespesa {
         this.nome = nome;
     }
 
+    public TipoDespesa() {}
+
     public TipoDespesa(Long idTipoDespesa) {
         this.id = idTipoDespesa;
     }

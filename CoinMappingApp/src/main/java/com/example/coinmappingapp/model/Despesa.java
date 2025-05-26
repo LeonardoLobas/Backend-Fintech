@@ -11,7 +11,7 @@ public class Despesa {
     private TipoDespesa tipoDespesa;
     private User user;
 
-    public Despesa() {}
+    public Despesa(String nome, Double valor, String descricao, LocalDate dataInclusao, User user) {}
 
     public Despesa(Long id, String nome, Double valor, String descricao, LocalDate dataInclusao, TipoDespesa tipoDespesa, User user) {
         this.id = id;

@@ -3,7 +3,9 @@ package com.example.coinmappingapp.dao.impl;
 import com.example.coinmappingapp.dao.ConnectionManager;
 import com.example.coinmappingapp.dao.DespesaDao;
 import com.example.coinmappingapp.exception.DBExeption;
-import com.example.coinmappingapp.model.*;
+import com.example.coinmappingapp.model.Despesa;
+import com.example.coinmappingapp.model.TipoDespesa;
+import com.example.coinmappingapp.model.User;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OracleDespesaDao implements DespesaDao {
+
     @Override
     public void cadastrar(Despesa despesa) throws DBExeption {
         String sql = "INSERT INTO T_FIN_DESPESAS (ID_DESPESA, NOME_DESPESA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_USER, ID_TIPO_DESPESA) " +
@@ -117,9 +120,10 @@ public class OracleDespesaDao implements DespesaDao {
                     String descricao = rs.getString("DESCRICAO");
                     LocalDate dataInclusao = rs.getDate("DATA_INCLUSAO").toLocalDate();
                     Long idTipoDespesa = rs.getLong("ID_TIPO_DESPESA");
+                    Long idUsuario = rs.getLong("ID_USER");
 
                     TipoDespesa tipoDespesa = new TipoDespesa(idTipoDespesa);
-                    User user = new User(userId);
+                    User user = new User(idUsuario);
 
                     Despesa despesa = new Despesa(id, nome, valor, descricao, dataInclusao, tipoDespesa, user);
                     lista.add(despesa);

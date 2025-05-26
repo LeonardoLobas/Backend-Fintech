@@ -90,7 +90,7 @@
         </div>
 
         <label for="valorDespesa" class="form-label fw-semibold" style="color: #BB2D3B; font-size: 1.2rem;">Adicionar despesa</label>
-        <form action="index" method="post">
+        <form action="despesa" method="post">
           <input type="hidden" name="acao" value="cadastrarDespesa" />
 
           <div class="input-group mb-2">
