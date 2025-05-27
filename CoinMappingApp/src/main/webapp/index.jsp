@@ -47,14 +47,6 @@
 
           <input type="text" class="form-control mb-2" name="descricao" placeholder="Descrição da receita" required />
 
-          <label for="tipoReceitaId" class="form-label fw-semibold">Tipo de Receita</label>
-          <select class="form-select mb-2" name="tipoReceitaId" id="tipoReceitaId">
-            <option value="">Selecione um tipo</option>
-            <c:forEach var="tipo" items="${tiposReceita}">
-              <option value="${tipo.id}"><c:out value="${tipo.nome}" /></option>
-            </c:forEach>
-          </select>
-
           <input type="hidden" name="nome" value="Receita" />
         </form>
 
@@ -99,14 +91,6 @@
           </div>
 
           <input type="text" class="form-control mb-2" name="descricao" placeholder="Descrição da despesa" required />
-
-          <label for="tipoDespesaId" class="form-label fw-semibold">Tipo de Despesa</label>
-          <select class="form-select mb-2" name="tipoDespesaId" id="tipoDespesaId">
-            <option value="">Selecione um tipo</option>
-            <c:forEach var="tipo" items="${tiposDespesa}">
-              <option value="${tipo.id}"><c:out value="${tipo.nome}" /></option>
-            </c:forEach>
-          </select>
 
           <input type="hidden" name="nome" value="Despesa" />
         </form>

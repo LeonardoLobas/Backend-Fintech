@@ -8,23 +8,21 @@ public class Receita {
     private Double valor;
     private String descricao;
     private LocalDate dataInclusao;
-    private TipoReceita tipoReceita;
     private User user;
 
     public Receita() {}
 
-    public Receita(Long id, String nome, Double valor, String descricao, LocalDate dataInclusao, TipoReceita tipoReceita, User user) {
+    public Receita(Long id, String nome, Double valor, String descricao, LocalDate dataInclusao,  User user) {
         this.id = id;
         this.nome = nome;
         this.valor = valor;
         this.descricao = descricao;
         this.dataInclusao = dataInclusao;
-        this.tipoReceita = tipoReceita;
         this.user = user;
     }
 
-    public Receita(String nome, Double valor, String descricao, LocalDate dataInclusao, TipoReceita tipoReceita, User user) {
-        this(null, nome, valor, descricao, dataInclusao, tipoReceita, user);
+    public Receita(String nome, Double valor, String descricao, LocalDate dataInclusao,  User user) {
+        this(null, nome, valor, descricao, dataInclusao,  user);
     }
 
     public Long getId() {
@@ -67,13 +65,6 @@ public class Receita {
         this.dataInclusao = dataInclusao;
     }
 
-    public TipoReceita getTipoReceita() {
-        return tipoReceita;
-    }
-
-    public void setTipoReceita(TipoReceita tipoReceita) {
-        this.tipoReceita = tipoReceita;
-    }
 
     public User getUser() {
         return user;
@@ -90,7 +81,6 @@ public class Receita {
                 ", valor=" + valor +
                 ", descricao='" + descricao + '\'' +
                 ", dataInclusao=" + dataInclusao +
-                ", tipoReceita=" + tipoReceita +
                 ", user=" + user;
     }
 }

@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -33,9 +34,21 @@ public class LoginServlet extends HttpServlet {
 
             User user = dao.buscarPorEmailESenha(email,senhaCriptografada);
             if (user != null) {
-                // Usuário encontrado, login bem-sucedido
+
+                OracleTipoReceita tiporeceitaDao = new OracleTipoReceita();
+                OracleTipoDespesa tipoDespesaDao = new OracleTipoDespesa();
+
+
+                List<TipoReceita> tiposReceita = tiporeceitaDao.listar();
+                List<TipoDespesa> tiposDespesa = tipoDespesaDao.listar();
+
+                req.setAttribute("tiposReceita", tiposReceita);
+                req.setAttribute("tiposDespesa", tiposDespesa);
+
+
+
                 req.getSession().setAttribute("usuarioLogado", user);
-                resp.sendRedirect("index");
+                resp.sendRedirect("index.jsp");
             } else {
                 req.setAttribute("erro", "E-mail ou senha inválidos.");
                 req.getRequestDispatcher("loginUser.jsp").forward(req, resp);

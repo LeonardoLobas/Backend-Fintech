@@ -4,7 +4,6 @@ import com.example.coinmappingapp.dao.ConnectionManager;
 import com.example.coinmappingapp.dao.DespesaDao;
 import com.example.coinmappingapp.exception.DBExeption;
 import com.example.coinmappingapp.model.Despesa;
-import com.example.coinmappingapp.model.TipoDespesa;
 import com.example.coinmappingapp.model.User;
 
 import java.sql.*;
@@ -16,7 +15,7 @@ public class OracleDespesaDao implements DespesaDao {
 
     @Override
     public void cadastrar(Despesa despesa) throws DBExeption {
-        String sql = "INSERT INTO T_FIN_DESPESAS (ID_DESPESA, NOME_DESPESA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_USER, ID_TIPO_DESPESA) " +
+        String sql = "INSERT INTO T_FIN_DESPESAS (ID_DESPESA, NOME_DESPESA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_USER) " +
                 "VALUES (seq_despesa.nextval, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = ConnectionManager.getInstance().getConnection();
@@ -27,7 +26,6 @@ public class OracleDespesaDao implements DespesaDao {
             stmt.setString(3, despesa.getDescricao());
             stmt.setDate(4, Date.valueOf(despesa.getDataInclusao()));
             stmt.setLong(5, despesa.getUser().getId());
-            stmt.setLong(6, despesa.getTipoDespesa().getId());
 
             stmt.executeUpdate();
 
@@ -88,10 +86,9 @@ public class OracleDespesaDao implements DespesaDao {
                 Long idTipoDespesa = rs.getLong("ID_TIPO_DESPESA");
                 Long idUsuario = rs.getLong("ID_USER");
 
-                TipoDespesa tipoDespesa = new TipoDespesa(idTipoDespesa);
                 User user = new User(idUsuario);
 
-                Despesa despesa = new Despesa(id, nome, valor, descricao, dataInclusao, tipoDespesa, user);
+                Despesa despesa = new Despesa(id, nome, valor, descricao, dataInclusao, user);
                 lista.add(despesa);
             }
 
@@ -122,10 +119,10 @@ public class OracleDespesaDao implements DespesaDao {
                     Long idTipoDespesa = rs.getLong("ID_TIPO_DESPESA");
                     Long idUsuario = rs.getLong("ID_USER");
 
-                    TipoDespesa tipoDespesa = new TipoDespesa(idTipoDespesa);
+
                     User user = new User(idUsuario);
 
-                    Despesa despesa = new Despesa(id, nome, valor, descricao, dataInclusao, tipoDespesa, user);
+                    Despesa despesa = new Despesa(id, nome, valor, descricao, dataInclusao, user);
                     lista.add(despesa);
                 }
             }

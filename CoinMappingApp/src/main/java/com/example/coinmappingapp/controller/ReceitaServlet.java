@@ -2,11 +2,9 @@ package com.example.coinmappingapp.controller;
 
 import com.example.coinmappingapp.dao.impl.OracleDespesaDao;
 import com.example.coinmappingapp.dao.impl.OracleReceitaDao;
-import com.example.coinmappingapp.dao.impl.OracleTipoReceita;
 import com.example.coinmappingapp.exception.DBExeption;
 import com.example.coinmappingapp.model.Despesa;
 import com.example.coinmappingapp.model.Receita;
-import com.example.coinmappingapp.model.TipoReceita;
 import com.example.coinmappingapp.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,17 +15,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/index")
+@WebServlet("/receita")
 public class ReceitaServlet extends HttpServlet {
     private OracleReceitaDao receitaDao;
-    private OracleTipoReceita tipoReceitaDao;
 
     @Override
     public void init() {
         System.out.println(">>>> Inicializando ReceitaServlet");
         receitaDao = new OracleReceitaDao();
-        tipoReceitaDao = new OracleTipoReceita();
-        System.out.println(this.tipoReceitaDao);
     }
 
     private void carregarDados(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException, DBExeption {
@@ -42,19 +37,7 @@ public class ReceitaServlet extends HttpServlet {
             List<Despesa> despesas = new OracleDespesaDao().listarPorUsuario(user.getId());
             System.out.println(">>>> Despesas carregadas: " + despesas.size());
 
-            // Carregando tipos de receita com tratamento de exceção
-            List<TipoReceita> tiposReceita = new ArrayList<>();
-            try {
-                tiposReceita = tipoReceitaDao.listar();
-                System.out.println(">>>> Tipos de receita carregados: " + tiposReceita.size());
-                for (TipoReceita tipo : tiposReceita) {
-                    System.out.println("  - ID: " + tipo.getId() + ", Nome: " + tipo.getNome());
-                }
-            } catch (DBExeption e) {
-                System.err.println(">>>> ERRO ao carregar tipos de receita: " + e.getMessage());
-                e.printStackTrace();
-                // Deixa a lista vazia se der erro
-            }
+
 
             // Calculando totais
             double totalReceita = receitas.stream().mapToDouble(Receita::getValor).sum();
@@ -65,7 +48,6 @@ public class ReceitaServlet extends HttpServlet {
             // Setando atributos na request
             request.setAttribute("receitas", receitas);
             request.setAttribute("despesas", despesas);
-            request.setAttribute("tiposReceita", tiposReceita);
             request.setAttribute("totalReceita", totalReceita);
             request.setAttribute("totalDespesa", totalDespesa);
 
@@ -112,16 +94,8 @@ public class ReceitaServlet extends HttpServlet {
                 Long tipoReceitaId = Long.parseLong(tipoReceitaIdStr);
                 LocalDate dataInclusao = LocalDate.now();
 
-                TipoReceita tipoReceita = tipoReceitaDao.buscarPorId(tipoReceitaId);
 
-                if (tipoReceita == null) {
-                    System.err.println(">>>> ERRO: Tipo de receita não encontrado para ID: " + tipoReceitaId);
-                    throw new IllegalArgumentException("Tipo de receita não encontrado");
-                }
-
-                System.out.println(">>>> Tipo de receita encontrado: " + tipoReceita.getNome());
-
-                Receita receita = new Receita(nome, valor, descricao, dataInclusao, tipoReceita, user);
+                Receita receita = new Receita(nome, valor, descricao, dataInclusao, user);
 
                 receitaDao.cadastrar(receita);
                 System.out.println(">>>> Receita cadastrada com sucesso");

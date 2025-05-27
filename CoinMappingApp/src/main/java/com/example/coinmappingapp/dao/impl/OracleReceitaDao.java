@@ -4,7 +4,6 @@ import com.example.coinmappingapp.dao.ConnectionManager;
 import com.example.coinmappingapp.dao.ReceitaDao;
 import com.example.coinmappingapp.exception.DBExeption;
 import com.example.coinmappingapp.model.Receita;
-import com.example.coinmappingapp.model.TipoReceita;
 import com.example.coinmappingapp.model.User;
 
 import java.sql.*;
@@ -16,7 +15,7 @@ public class OracleReceitaDao implements ReceitaDao {
 
     @Override
     public void cadastrar(Receita receita) throws DBExeption {
-        String sql = "INSERT INTO T_FIN_RECEITAS (ID_RECEITA, NOME_RECEITA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_TIPO_RECEITA, ID_USER) " +
+        String sql = "INSERT INTO T_FIN_RECEITAS (ID_RECEITA, NOME_RECEITA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_USER) " +
                 "VALUES (seq_receita.nextval, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = ConnectionManager.getInstance().getConnection();
@@ -26,7 +25,6 @@ public class OracleReceitaDao implements ReceitaDao {
             stmt.setDouble(2, receita.getValor());
             stmt.setString(3, receita.getDescricao());
             stmt.setDate(4, Date.valueOf(receita.getDataInclusao()));
-            stmt.setLong(5, receita.getTipoReceita().getId());
             stmt.setLong(6, receita.getUser().getId());
 
             stmt.executeUpdate();
@@ -85,13 +83,11 @@ public class OracleReceitaDao implements ReceitaDao {
                 Double valor = rs.getDouble("VALOR");
                 String descricao = rs.getString("DESCRICAO");
                 LocalDate dataInclusao = rs.getDate("DATA_INCLUSAO").toLocalDate();
-                Long idTipoReceita = rs.getLong("ID_TIPO_RECEITA");
                 Long idUsuario = rs.getLong("ID_USER");
 
-                TipoReceita tipoReceita = new TipoReceita(idTipoReceita);
                 User user = new User(idUsuario);
 
-                Receita receita = new Receita(id, nome, valor, descricao, dataInclusao, tipoReceita, user);
+                Receita receita = new Receita(id, nome, valor, descricao, dataInclusao, user);
                 lista.add(receita);
             }
 
@@ -122,10 +118,10 @@ public class OracleReceitaDao implements ReceitaDao {
                     Long idTipoReceita = rs.getLong("ID_TIPO_RECEITA");
                     Long idUsuario = rs.getLong("ID_USER");
 
-                    TipoReceita tipoReceita = new TipoReceita(idTipoReceita);
+
                     User user = new User(idUsuario);
 
-                    Receita receita = new Receita(id, nome, valor, descricao, dataInclusao, tipoReceita, user);
+                    Receita receita = new Receita(id, nome, valor, descricao, dataInclusao,  user);
                     lista.add(receita);
                 }
             }
