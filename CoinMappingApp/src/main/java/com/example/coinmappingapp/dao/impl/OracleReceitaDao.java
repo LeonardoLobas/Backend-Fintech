@@ -16,7 +16,7 @@ public class OracleReceitaDao implements ReceitaDao {
     @Override
     public void cadastrar(Receita receita) throws DBExeption {
         String sql = "INSERT INTO T_FIN_RECEITAS (ID_RECEITA, NOME_RECEITA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_USER) " +
-                "VALUES (seq_receita.nextval, ?, ?, ?, ?, ?, ?)";
+                "VALUES (seq_receita.nextval, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = ConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -25,7 +25,7 @@ public class OracleReceitaDao implements ReceitaDao {
             stmt.setDouble(2, receita.getValor());
             stmt.setString(3, receita.getDescricao());
             stmt.setDate(4, Date.valueOf(receita.getDataInclusao()));
-            stmt.setLong(6, receita.getUser().getId());
+            stmt.setLong(5, receita.getUser().getId());
 
             stmt.executeUpdate();
 
@@ -115,7 +115,6 @@ public class OracleReceitaDao implements ReceitaDao {
                     Double valor = rs.getDouble("VALOR");
                     String descricao = rs.getString("DESCRICAO");
                     LocalDate dataInclusao = rs.getDate("DATA_INCLUSAO").toLocalDate();
-                    Long idTipoReceita = rs.getLong("ID_TIPO_RECEITA");
                     Long idUsuario = rs.getLong("ID_USER");
 
 

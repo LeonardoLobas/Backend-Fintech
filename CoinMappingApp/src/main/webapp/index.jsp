@@ -37,7 +37,7 @@
         </div>
 
         <label for="valorReceita" class="form-label fw-semibold" style="color: #157347; font-size: 1.2rem;">Adicionar receita</label>
-        <form action="index" method="post">
+        <form action="receita" method="post">
           <input type="hidden" name="acao" value="cadastrar" />
 
           <div class="input-group mb-2">
@@ -56,7 +56,7 @@
             <c:forEach var="receita" items="${receitas}">
               <li>
                   ${receita.nome} - R$ ${receita.valor} - ${receita.descricao}
-                <form action="${pageContext.request.contextPath}/index" method="post" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/receita" method="post" style="display:inline;">
                   <input type="hidden" name="acao" value="remover" />
                   <input type="hidden" name="id" value="${receita.id}" />
                   <button type="submit" class="btn btn-sm btn-danger">x</button>
@@ -101,7 +101,7 @@
             <c:forEach var="despesa" items="${despesas}">
               <li>
                   ${despesa.nome} - R$ ${despesa.valor} - ${despesa.descricao}
-                <form action="${pageContext.request.contextPath}/index" method="post" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/despesa" method="post" style="display:inline;">
                   <input type="hidden" name="acao" value="removerDespesa" />
                   <input type="hidden" name="id" value="${despesa.id}" />
                   <button type="submit" class="btn btn-sm btn-danger">x</button>

@@ -38,7 +38,6 @@ public class ReceitaServlet extends HttpServlet {
             System.out.println(">>>> Despesas carregadas: " + despesas.size());
 
 
-
             // Calculando totais
             double totalReceita = receitas.stream().mapToDouble(Receita::getValor).sum();
             double totalDespesa = despesas.stream().mapToDouble(Despesa::getValor).sum();
@@ -82,16 +81,11 @@ public class ReceitaServlet extends HttpServlet {
                 String nome = request.getParameter("nome");
                 Double valor = Double.parseDouble(request.getParameter("valor"));
                 String descricao = request.getParameter("descricao");
-                String tipoReceitaIdStr = request.getParameter("tipoReceitaId");
 
-                System.out.println(">>>> Dados recebidos - Nome: " + nome + ", Valor: " + valor + ", Descrição: " + descricao + ", TipoReceitaId: " + tipoReceitaIdStr);
 
-                if (tipoReceitaIdStr == null || tipoReceitaIdStr.trim().isEmpty()) {
-                    System.err.println(">>>> ERRO: Tipo de receita é obrigatório");
-                    throw new IllegalArgumentException("Tipo de receita é obrigatório");
-                }
+                System.out.println(">>>> Dados recebidos - Nome: " + nome + ", Valor: " + valor + ", Descrição: " + descricao + ", TipoReceitaId: " );
 
-                Long tipoReceitaId = Long.parseLong(tipoReceitaIdStr);
+
                 LocalDate dataInclusao = LocalDate.now();
 
 
@@ -145,6 +139,5 @@ public class ReceitaServlet extends HttpServlet {
             throw new ServletException(e);
         }
     }
-
 
 }

@@ -16,7 +16,7 @@ public class OracleDespesaDao implements DespesaDao {
     @Override
     public void cadastrar(Despesa despesa) throws DBExeption {
         String sql = "INSERT INTO T_FIN_DESPESAS (ID_DESPESA, NOME_DESPESA, VALOR, DESCRICAO, DATA_INCLUSAO, ID_USER) " +
-                "VALUES (seq_despesa.nextval, ?, ?, ?, ?, ?, ?)";
+                "VALUES (seq_despesa.nextval, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = ConnectionManager.getInstance().getConnection();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -83,7 +83,6 @@ public class OracleDespesaDao implements DespesaDao {
                 Double valor = rs.getDouble("VALOR");
                 String descricao = rs.getString("DESCRICAO");
                 LocalDate dataInclusao = rs.getDate("DATA_INCLUSAO").toLocalDate();
-                Long idTipoDespesa = rs.getLong("ID_TIPO_DESPESA");
                 Long idUsuario = rs.getLong("ID_USER");
 
                 User user = new User(idUsuario);
@@ -116,9 +115,7 @@ public class OracleDespesaDao implements DespesaDao {
                     Double valor = rs.getDouble("VALOR");
                     String descricao = rs.getString("DESCRICAO");
                     LocalDate dataInclusao = rs.getDate("DATA_INCLUSAO").toLocalDate();
-                    Long idTipoDespesa = rs.getLong("ID_TIPO_DESPESA");
                     Long idUsuario = rs.getLong("ID_USER");
-
 
                     User user = new User(idUsuario);
 

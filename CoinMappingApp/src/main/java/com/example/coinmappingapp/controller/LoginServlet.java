@@ -35,17 +35,6 @@ public class LoginServlet extends HttpServlet {
             User user = dao.buscarPorEmailESenha(email,senhaCriptografada);
             if (user != null) {
 
-                OracleTipoReceita tiporeceitaDao = new OracleTipoReceita();
-                OracleTipoDespesa tipoDespesaDao = new OracleTipoDespesa();
-
-
-                List<TipoReceita> tiposReceita = tiporeceitaDao.listar();
-                List<TipoDespesa> tiposDespesa = tipoDespesaDao.listar();
-
-                req.setAttribute("tiposReceita", tiposReceita);
-                req.setAttribute("tiposDespesa", tiposDespesa);
-
-
 
                 req.getSession().setAttribute("usuarioLogado", user);
                 resp.sendRedirect("index.jsp");

@@ -62,9 +62,9 @@ public class DespesaServlet extends HttpServlet {
         System.out.println(">>>> Ação recebida: " + acao);
 
         try {
-            if ("cadastrar".equals(acao)) {
+            if ("cadastrarDespesa".equals(acao)) {
                 String nome = request.getParameter("nome");
-                Double valor = Double.parseDouble(request.getParameter("valor"));
+                Double valor = Double.valueOf(request.getParameter("valor"));
                 String descricao = request.getParameter("descricao");
 
                 if (valor < 0) {
@@ -105,7 +105,7 @@ public class DespesaServlet extends HttpServlet {
         String acao = request.getParameter("acao");
 
         try {
-            if ("remover".equals(acao)) {
+            if ("removerDespesa".equals(acao)) {
                 Long id = Long.parseLong(request.getParameter("id"));
                 despesaDao.remover(id);
                 System.out.println(">>>> Despesa removida com sucesso");
